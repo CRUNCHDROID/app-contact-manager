@@ -5,8 +5,8 @@
  */
 package net.crunchdroid.module.ejb.contat.manager.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -23,7 +23,7 @@ public class Circle extends AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @ManyToMany(mappedBy = "circles")
-    private Set<Contact> contacts = new HashSet<>();
+    private List<Contact> contacts = new ArrayList<Contact>();
 
     @Column(name = "name")
     private String name;
@@ -34,11 +34,11 @@ public class Circle extends AbstractEntity {
     public Circle() {
     }
 
-    public Set<Contact> getContacts() {
+    public List<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Set<Contact> contacts) {
+    public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 

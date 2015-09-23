@@ -35,22 +35,22 @@ public class Contact extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(name = "circle_contact", joinColumns = @JoinColumn(name = "contact_id"), inverseJoinColumns = @JoinColumn(name = "circle_id"))
-    private List<Circle> circles = new ArrayList<>();
+    private List<Circle> circles = new ArrayList<Circle>();
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
-    private List<Website> websites = new ArrayList<>();
+    private List<Website> websites = new ArrayList<Website>();
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
-    private List<Address> addresses = new ArrayList<>();
+    private List<Address> addresses = new ArrayList<Address>();
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
-    private List<Email> emails = new ArrayList<>();
+    private List<Email> emails = new ArrayList<Email>();
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
-    private List<Phone> phones = new ArrayList<>();
+    private List<Phone> phones = new ArrayList<Phone>();
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
-    private List<InstantMessaging> instantMessagings = new ArrayList<>();
+    private List<InstantMessaging> instantMessagings = new ArrayList<InstantMessaging>();
 
     @Lob
     @Column(name = "photo")

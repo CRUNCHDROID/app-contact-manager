@@ -5,8 +5,8 @@
  */
 package net.crunchdroid.module.ejb.contat.manager.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ public class Role extends AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.PERSIST)
-    private Set<User> user = new HashSet<>();
+    private List<User> user = new ArrayList<User>();
 
     @NotNull
     @Size(min = 1, max = 60)
@@ -40,11 +40,11 @@ public class Role extends AbstractEntity {
         this.name = name;
     }
 
-    public Set<User> getUser() {
+    public List<User> getUser() {
         return user;
     }
 
-    public void setUser(Set<User> user) {
+    public void setUser(List<User> user) {
         this.user = user;
     }
 
