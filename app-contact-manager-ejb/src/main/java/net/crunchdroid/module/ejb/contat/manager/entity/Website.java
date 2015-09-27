@@ -8,6 +8,7 @@ package net.crunchdroid.module.ejb.contat.manager.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -24,44 +25,45 @@ public class Website extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne
-    @JoinColumn(name = "website_type_id")
-    private WebsiteType websiteType;
-
-    @ManyToOne
-    @JoinColumn(name = "contact_id")
-    private Contact contact;
-
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "name")
-    private String name;
+    @Column(name = "url")
+    private String url;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "type_id")
+    private Type type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id", nullable = false)
+    private Contact contact;
 
     public Website() {
     }
 
-    public Website(Contact contact, String name) {
-        this.contact = contact;
-        this.name = name;
+    public Website(String url) {
+        this.url = url;
     }
 
-    public Website(WebsiteType websiteType, String name) {
-        this.websiteType = websiteType;
-        this.name = name;
+    public Website(String url, Type type) {
+        this.url = url;
+        this.type = type;
     }
 
-    public Website(Contact contact, WebsiteType websiteType, String name) {
-        this.contact = contact;
-        this.websiteType = websiteType;
-        this.name = name;
+    public String getUrl() {
+        return url;
     }
 
-    public WebsiteType getWebsiteType() {
-        return websiteType;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setWebsiteType(WebsiteType websiteType) {
-        this.websiteType = websiteType;
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Contact getContact() {
@@ -72,18 +74,10 @@ public class Website extends AbstractEntity {
         this.contact = contact;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String toString() {
-        return String.format("Website ::: id -> %s, name -> %s, created -> %s, updated -> %s, websiteType -> %s",
-                id, name, created, updated, websiteType);
+        return String.format("\nWebsite ::: [ id = %s, url = %s, created = %s, updated = %s ] %s",
+                id, url, created, updated, type);
     }
 
 }

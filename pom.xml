@@ -10,5 +10,6 @@
     <module>app-contact-manager-ear</module>
     <module>app-contact-manager-ejb</module>
     <module>app-contact-manager-business</module>
+    <module>app-contact-manager-web-jsp</module>
   </modules>
 </project>

@@ -5,8 +5,10 @@
  */
 package net.crunchdroid.module.ejb.contat.manager.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,28 +25,45 @@ public class Phone extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne
-    @JoinColumn(name = "phone_type_id")
-    private PhoneType phoneType;
-
-    @ManyToOne
-    @JoinColumn(name = "contact_id")
-    private Contact contact;
-
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "name")
-    private String name;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "type_id")
+    private Type type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id", nullable = false)
+    private Contact contact;
 
     public Phone() {
     }
 
-    public PhoneType getPhoneType() {
-        return phoneType;
+    public Phone(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public void setPhoneType(PhoneType phoneType) {
-        this.phoneType = phoneType;
+    public Phone(String phoneNumber, Type type) {
+        this.phoneNumber = phoneNumber;
+        this.type = type;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Contact getContact() {
@@ -55,18 +74,10 @@ public class Phone extends AbstractEntity {
         this.contact = contact;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String toString() {
-        return String.format("Phone ::: id -> %s, name -> %s, created -> %s, updated -> %s, phoneType -> %s",
-                id, name, created, updated, phoneType);
+        return String.format("\nPhone ::: [ id = %s, phoneNumber = %s, created = %s, updated = %s ] %s",
+                id, phoneNumber, created, updated, type);
     }
 
 }

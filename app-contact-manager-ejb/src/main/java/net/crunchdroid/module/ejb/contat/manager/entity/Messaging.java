@@ -8,6 +8,7 @@ package net.crunchdroid.module.ejb.contat.manager.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,42 +20,42 @@ import javax.validation.constraints.Size;
  * @author Riad YOUSFI
  */
 @Entity
-@Table(name = "email")
-public class Email extends AbstractEntity {
+@Table(name = "messaging")
+public class Messaging extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "email_address")
-    private String emailAddress;
+    @Column(name = "messaging_address")
+    private String messagingAddress;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "type_id")
     private Type type;
 
-    @ManyToOne
-    @JoinColumn(name = "contact_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id", nullable = false)
     private Contact contact;
 
-    public Email() {
+    public Messaging() {
     }
 
-    public Email(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public Messaging(String messagingAddress) {
+        this.messagingAddress = messagingAddress;
     }
 
-    public Email(String emailAddress, Type type) {
-        this.emailAddress = emailAddress;
+    public Messaging(String messagingAddress, Type type) {
+        this.messagingAddress = messagingAddress;
         this.type = type;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getMessagingAddress() {
+        return messagingAddress;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setMessagingAddress(String messagingAddress) {
+        this.messagingAddress = messagingAddress;
     }
 
     public Type getType() {
@@ -75,8 +76,8 @@ public class Email extends AbstractEntity {
 
     @Override
     public String toString() {
-        return String.format("\nEmail ::: [ id = %s, emailAddress = %s, created = %s, updated = %s ] %s",
-                id, emailAddress, created, updated, type);
+        return String.format("\nInstantMessaging ::: [ id = %s, messagingAddress = %s, created = %s, updated = %s ] %s",
+                id, messagingAddress, created, updated, type);
     }
 
 }

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -19,24 +21,29 @@ import javax.validation.constraints.Size;
  * @author Riad YOUSFI
  */
 @Entity
-@Table(name = "role")
-public class Role extends AbstractEntity {
+@Table(name = "civility")
+public class Civility extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Size(min = 1, max = 60)
+    @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "role")
-    private List<User> user = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Role() {
+    @OneToMany(mappedBy = "civility")
+    private List<Contact> contacts = new ArrayList<>();
+
+    public Civility() {
     }
 
-    public Role(String name) {
+    public Civility(String name, User user) {
         this.name = name;
+        this.user = user;
     }
 
     public String getName() {
@@ -47,18 +54,26 @@ public class Role extends AbstractEntity {
         this.name = name;
     }
 
-    public List<User> getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(List<User> user) {
+    public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     @Override
     public String toString() {
-        return String.format("\nRole ::: [ id = %s, name = %s, created = %s, updated = %s ]",
-                id, name, created, updated);
+        return String.format("\nCivility ::: [ id = %s, name = %s, created = %s, updated = %s ] %s",
+                id, name, created, updated, user);
     }
 
 }

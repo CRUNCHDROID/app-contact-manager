@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,24 +24,25 @@ public class Circle extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToMany(mappedBy = "circles")
-    private List<Contact> contacts = new ArrayList<Contact>();
-
     @Column(name = "name")
     private String name;
 
-    @Column(name = "is_delete")
-    private Boolean isDelete;
+    @Column(name = "deleted")
+    private Boolean deleted;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToMany(mappedBy = "circles")
+    private List<Contact> contacts = new ArrayList<>();
 
     public Circle() {
     }
 
-    public List<Contact> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(List<Contact> contacts) {
-        this.contacts = contacts;
+    public Circle(String name, User user) {
+        this.name = name;
+        this.user = user;
     }
 
     public String getName() {
@@ -50,18 +53,34 @@ public class Circle extends AbstractEntity {
         this.name = name;
     }
 
-    public Boolean getIsDelete() {
-        return isDelete;
+    public Boolean getDeleted() {
+        return deleted;
     }
 
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     @Override
     public String toString() {
-        return String.format("Circle ::: id -> %s, name -> %s, isDelete -> %s, created -> %s, updated -> %s",
-                id, name, isDelete, created, updated);
+        return String.format("\nCircle ::: [ id = %s, name = %s, isDelete = %s, created = %s, updated = %s ] %s",
+                id, name, deleted, created, updated, user);
     }
 
 }

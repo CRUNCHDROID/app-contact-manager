@@ -25,7 +25,7 @@ public class User extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -57,6 +57,13 @@ public class User extends AbstractEntity {
     private String token;
 
     public User() {
+    }
+
+    public User(String username, String firstName, String lastName, Role role) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
     }
 
     public Role getRole() {
@@ -117,7 +124,7 @@ public class User extends AbstractEntity {
 
     @Override
     public String toString() {
-        return String.format("User ::: id -> %s, username -> %s, firstName -> %s, lastName -> %s, created -> %s, updated -> %s, role -> %s",
+        return String.format("\nUser ::: [ id = %s, username = %s, firstName = %s, lastName = %s, created = %s, updated = %s ] %s",
                 id, username, firstName, lastName, created, updated, role);
     }
 
